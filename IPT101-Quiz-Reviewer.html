@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IPT101 Quiz Reviewer</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Source+Sans+3:wght@400;500;600;700&display=swap');
+
+  :root{
+    --bg: #14161c;
+    --panel: #1c1f28;
+    --panel-raised: #232733;
+    --line: #2e3340;
+    --text: #dfe3ee;
+    --muted: #8890a4;
+    --accent: #6ee7b7;
+    --accent-dim: #3a5c4d;
+    --wrong: #f28b82;
+    --wrong-dim: #5c3a3a;
+    --gold: #f2c46d;
+    --mono: 'JetBrains Mono', monospace;
+    --sans: 'Source Sans 3', sans-serif;
+  }
+
+  *{ box-sizing: border-box; }
+
+  body{
+    margin:0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    min-height: 100vh;
+    display:flex;
+    justify-content:center;
+    padding: 32px 16px 60px;
+  }
+
+  .wrap{ width:100%; max-width: 700px; }
+
+  .brand{
+    display:flex;
+    align-items: baseline;
+    gap:10px;
+    margin-bottom: 22px;
+  }
+  .brand .tag{
+    font-family: var(--mono);
+    font-size: 12.5px;
+    color: var(--muted);
+    letter-spacing: 0.02em;
+  }
+  .brand h1{
+    font-family: var(--mono);
+    font-size: 20px;
+    font-weight: 700;
+    margin: 2px 0 0;
+    color: var(--text);
+  }
+  .brand h1 span{ color: var(--accent); }
+
+  .card{
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 26px 26px 22px;
+  }
+
+  /* ---- intro screen ---- */
+  #intro p{
+    color: var(--muted);
+    line-height: 1.6;
+    font-size: 15px;
+  }
+  #intro .stats{
+    display:flex;
+    gap:14px;
+    margin: 18px 0 22px;
+    flex-wrap: wrap;
+  }
+  .stat{
+    font-family: var(--mono);
+    background: var(--panel-raised);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 13px;
+    color: var(--text);
+  }
+  .stat b{ display:block; font-size: 18px; color: var(--accent); }
+
+  button.primary{
+    font-family: var(--mono);
+    background: var(--accent);
+    color: #0c1410;
+    border: none;
+    font-weight: 700;
+    font-size: 14.5px;
+    padding: 13px 22px;
+    border-radius: 8px;
+    cursor: pointer;
+    letter-spacing: 0.01em;
+  }
+  button.primary:hover{ filter: brightness(1.08); }
+  button.primary:disabled{ opacity:0.4; cursor:not-allowed; filter:none; }
+
+  button.ghost{
+    font-family: var(--mono);
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--line);
+    font-size: 14px;
+    padding: 12px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  button.ghost:hover{ border-color: var(--accent); color: var(--accent); }
+
+  /* ---- progress ---- */
+  #quizScreen{ display:none; }
+  .progress-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-family: var(--mono);
+    font-size: 12.5px;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+  .progress-track{
+    height: 5px;
+    width:100%;
+    background: var(--panel-raised);
+    border-radius: 4px;
+    overflow:hidden;
+    margin-bottom: 22px;
+  }
+  .progress-fill{
+    height:100%;
+    background: var(--accent);
+    width:0%;
+    transition: width 0.25s ease;
+  }
+
+  .qtopic{
+    font-family: var(--mono);
+    font-size: 11.5px;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 8px;
+  }
+  .qtext{
+    font-size: 17px;
+    line-height: 1.5;
+    margin: 0 0 20px;
+    color: var(--text);
+  }
+  .qtext code{
+    font-family: var(--mono);
+    background: var(--panel-raised);
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-size: 0.9em;
+    color: var(--gold);
+  }
+
+  .options{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    margin-bottom: 22px;
+  }
+  .opt{
+    display:flex;
+    align-items:flex-start;
+    gap:12px;
+    text-align:left;
+    background: var(--panel-raised);
+    border: 1px solid var(--line);
+    color: var(--text);
+    padding: 13px 15px;
+    border-radius: 8px;
+    cursor:pointer;
+    font-size: 14.5px;
+    font-family: var(--sans);
+    line-height: 1.45;
+  }
+  .opt:hover:not(.locked){ border-color: var(--accent); }
+  .opt .letter{
+    font-family: var(--mono);
+    font-weight:700;
+    color: var(--muted);
+    flex-shrink:0;
+  }
+  .opt code{
+    font-family: var(--mono);
+    background: rgba(0,0,0,0.25);
+    padding: 1px 5px;
+    border-radius: 4px;
+    font-size: 0.92em;
+    color: var(--gold);
+  }
+  .opt.correct{
+    border-color: var(--accent);
+    background: var(--accent-dim);
+  }
+  .opt.correct .letter{ color: var(--accent); }
+  .opt.wrong{
+    border-color: var(--wrong);
+    background: var(--wrong-dim);
+  }
+  .opt.wrong .letter{ color: var(--wrong); }
+  .opt.locked{ cursor:default; }
+
+  .feedback{
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--muted);
+    min-height: 20px;
+    margin-bottom: 18px;
+  }
+  .feedback.correct{ color: var(--accent); }
+  .feedback.wrong{ color: var(--wrong); }
+
+  .nav-row{ display:flex; justify-content:flex-end; }
+
+  /* ---- results ---- */
+  #resultScreen{ display:none; text-align:center; }
+  #resultScreen .score-big{
+    font-family: var(--mono);
+    font-size: 56px;
+    font-weight: 800;
+    color: var(--accent);
+    margin: 6px 0 2px;
+  }
+  #resultScreen .score-sub{
+    font-family: var(--mono);
+    color: var(--muted);
+    font-size: 13.5px;
+    margin-bottom: 22px;
+  }
+  #resultScreen .verdict{
+    font-size: 16px;
+    margin-bottom: 22px;
+    color: var(--text);
+  }
+  .breakdown{
+    text-align:left;
+    background: var(--panel-raised);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 16px 18px;
+    margin-bottom: 22px;
+    max-height: 320px;
+    overflow-y:auto;
+  }
+  .breakdown-row{
+    display:flex;
+    justify-content:space-between;
+    gap: 10px;
+    font-size: 13px;
+    padding: 7px 0;
+    border-bottom: 1px solid var(--line);
+    font-family: var(--mono);
+  }
+  .breakdown-row:last-child{ border-bottom:none; }
+  .breakdown-row .r-topic{ color: var(--text); }
+  .breakdown-row .r-mark{ flex-shrink:0; }
+  .breakdown-row.miss .r-mark{ color: var(--wrong); }
+  .breakdown-row.hit .r-mark{ color: var(--accent); }
+
+  .result-actions{ display:flex; gap:12px; justify-content:center; }
+
+  @media (max-width: 520px){
+    .card{ padding: 20px 18px; }
+    #resultScreen .score-big{ font-size: 44px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="brand">
+    <span class="tag">IPT101 //</span>
+    <h1>Integrative Programming <span>Reviewer</span></h1>
+  </div>
+
+  <div class="card">
+
+    <div id="intro">
+      <p>100 questions covering methods, arrays, Swing components, layout managers, and OOP fundamentals — pulled straight from your midterm notes.</p>
+      <div class="stats">
+        <div class="stat"><b>100</b>questions</div>
+        <div class="stat"><b>4</b>choices each</div>
+        <div class="stat"><b>∞</b>retries</div>
+      </div>
+      <button class="primary" onclick="startQuiz()">Start reviewer</button>
+    </div>
+
+    <div id="quizScreen">
+      <div class="progress-row">
+        <span id="qCounter">Question 1 / 100</span>
+        <span id="qScoreLive">Score: 0</span>
+      </div>
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+
+      <div class="qtopic" id="qTopic">TOPIC</div>
+      <p class="qtext" id="qText">Question text</p>
+      <div class="options" id="optionsBox"></div>
+      <div class="feedback" id="feedback"></div>
+
+      <div class="nav-row">
+        <button class="primary" id="nextBtn" onclick="nextQuestion()" disabled>Next question</button>
+      </div>
+    </div>
+
+    <div id="resultScreen">
+      <div class="qtopic" style="text-align:left">RESULT</div>
+      <div class="score-big" id="scoreBig">0%</div>
+      <div class="score-sub" id="scoreSub">0 / 100 correct</div>
+      <div class="verdict" id="verdict"></div>
+      <div class="breakdown" id="breakdown"></div>
+      <div class="result-actions">
+        <button class="primary" onclick="restartQuiz()">Retry quiz</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const QUESTIONS = [
+{t:"Purpose of a Method", q:"What is the primary purpose of a method in Java?", o:["To perform a specific task or operation","To declare variables only","To import packages","To create a compiler"], c:0},
+{t:"Purpose of a Method", q:"Which best describes why methods exist in Java programs?", o:["They store data permanently","They perform specific tasks or operations that can be invoked","They replace classes entirely","They define the main memory layout"], c:1},
+
+{t:"Method Return Type", q:"What does the return type in a method declaration specify?", o:["The method's name","The type of value returned by the method","The number of parameters","The access modifier"], c:1},
+{t:"Method Return Type", q:"In <code>public int calculate()</code>, what does <code>int</code> represent?", o:["The method's parameter","The return type of the method","The class name","A loop variable"], c:1},
+
+{t:"Returning Sum of Integers", q:"Which method correctly returns the sum of two integers?", o:["<code>void add(int a, int b) { a + b; }</code>","<code>int add(int a, int b) { return a + b; }</code>","<code>int add() { return a + b; }</code>","<code>String add(int a, int b) { a + b; }</code>"], c:1},
+{t:"Returning Sum of Integers", q:"Given <code>int add(int a, int b) { return a + b; }</code>, calling <code>add(3, 4)</code> returns:", o:["34","7","\"3 4\"","An error"], c:1},
+
+{t:"Method Parameters", q:"What is the purpose of a parameter in a method?", o:["To store the return value","To receive data that can be used by the method","To define the class name","To end the program"], c:1},
+{t:"Method Parameters", q:"In <code>void display(String name)</code>, what role does <code>name</code> play?", o:["It's the return type","It's a parameter that receives data passed to the method","It's a static variable","It's an object"], c:1},
+
+{t:"Calling a Static Method", q:"How is a static method named <code>greet()</code> called?", o:["<code>greet;</code>","<code>call greet();</code>","<code>greet();</code>","<code>new greet();</code>"], c:2},
+{t:"Calling a Static Method", q:"What is the standard syntax to call a static method with no parameters?", o:["<code>methodName();</code>","<code>methodName[];</code>","<code>methodName{};</code>","<code>new methodName();</code>"], c:0},
+
+{t:"Void Return Type", q:"What does a method with a void return type do?", o:["Returns an integer","Returns a string","Does not return a value","Always returns null"], c:2},
+{t:"Void Return Type", q:"Which return type indicates a method does not return any value?", o:["int","void","String","boolean"], c:1},
+
+{t:"Method Execution Output", q:"Passing 4 to a method that returns the square of its input displays:", o:["4","8","16","12"], c:2},
+{t:"Method Execution Output", q:"If <code>square(4)</code> evaluates to 16, what does <code>square(5)</code> evaluate to?", o:["10","20","25","15"], c:2},
+
+{t:"Displaying Parameters", q:"Which method declaration accepts a student's name and displays it?", o:["<code>int display(name)</code>","<code>void display(String name) { System.out.println(name); }</code>","<code>void display() { System.out.println(name); }</code>","<code>String display(name) { print(name); }</code>"], c:1},
+{t:"Displaying Parameters", q:"In <code>void display(String name) { System.out.println(name); }</code>, what does the parameter allow?", o:["The method to accept a String value and print it","The method to return a value","The method to create a new class","The method to loop indefinitely"], c:0},
+
+{t:"Code Reusability", q:"To reuse the same calculation in several parts of a program, the best approach is to:", o:["Copy and paste the code everywhere","Create a method containing the calculation","Write it as a comment","Use a static variable only"], c:1},
+{t:"Code Reusability", q:"What is the best practice for achieving code reuse in Java?", o:["Duplicating code blocks","Creating a reusable method","Removing all functions","Hardcoding values"], c:1},
+
+{t:"Method Overloading", q:"Method overloading is defined as:", o:["Defining methods with the same name but different parameter lists","Defining methods with different names","Overwriting a method in a subclass","Deleting unused methods"], c:0},
+{t:"Method Overloading", q:"Which of the following is an example of method overloading?", o:["Two methods with identical names and identical parameters","Two methods with the same name but different parameter lists","One method calling another","A method inside a loop"], c:1},
+
+{t:"Array Declaration", q:"Which declaration creates an array capable of storing five integers?", o:["<code>int numbers = new int[5];</code>","<code>int[] numbers = new int[5];</code>","<code>int[5] numbers = new int;</code>","<code>array numbers = int[5];</code>"], c:1},
+{t:"Array Declaration", q:"What does <code>new int[5]</code> allocate?", o:["A single integer variable","An array with space for 5 integers","A string of length 5","A 5x5 2D array"], c:1},
+
+{t:"Array Indexing", q:"What is the index of the first element in a Java array?", o:["1","-1","0","It depends on the array"], c:2},
+{t:"Array Indexing", q:"In Java, array indexing always starts at:", o:["0","1","The array's length","A random number"], c:0},
+
+{t:"Accessing Array Elements", q:"Given <code>scores = {80, 85, 90, 95}</code>, which expression accesses the value 90?", o:["<code>scores[3]</code>","<code>scores[1]</code>","<code>scores[2]</code>","<code>scores[90]</code>"], c:2},
+{t:"Accessing Array Elements", q:"In the array <code>scores = {80, 85, 90, 95}</code>, what does <code>scores[0]</code> return?", o:["95","90","85","80"], c:3},
+
+{t:"Array Length Property", q:"What does the length property of an array provide?", o:["The sum of all elements","The number of elements in the array","The last element's value","The data type of the array"], c:1},
+{t:"Array Length Property", q:"If an array has 10 elements, what value does <code>array.length</code> return?", o:["9","10","0","11"], c:1},
+
+{t:"Array Index Out of Bounds", q:"Accessing index 3 of a three-element array causes:", o:["A compile error","An ArrayIndexOutOfBoundsException","The value 0 to be returned","Nothing, it's valid"], c:1},
+{t:"Array Index Out of Bounds", q:"What exception is thrown when accessing an invalid array index in Java?", o:["NullPointerException","ArrayIndexOutOfBoundsException","ClassCastException","NumberFormatException"], c:1},
+
+{t:"Array Traversal", q:"Which loop is commonly used to process every element of an array?", o:["if statement","for loop","switch statement","try-catch block"], c:1},
+{t:"Array Traversal", q:"What is the standard loop structure for iterating through arrays?", o:["do-while only","for loop","if-else chain","synchronized block"], c:1},
+
+{t:"Array Output", q:"Printing each element of the array {2, 4, 6, 8} sequentially displays:", o:["8 6 4 2","2 4 6 8","\"2, 4, 6, 8\" as one string only","An error"], c:1},
+{t:"Array Output", q:"What is the output of printing the elements of {2, 4, 6, 8} in order?", o:["2 4 6 8","4 2 8 6","8 4 6 2","6 8 2 4"], c:0},
+
+{t:"2D Array Declaration", q:"Which declaration creates a two-dimensional integer array with 3 rows and 4 columns?", o:["<code>int[] data = new int[3,4];</code>","<code>int[][] data = new int[3][4];</code>","<code>int[][] data = new int[4][3];</code>","<code>int data[3][4];</code>"], c:1},
+{t:"2D Array Declaration", q:"In <code>int[][] data = new int[3][4];</code>, how many total elements can the array hold?", o:["7","12","3","4"], c:1},
+
+{t:"Choosing Data Structures", q:"To store the grades of 50 students in one subject, the most appropriate structure is:", o:["A single integer variable","An integer array with 50 elements","A 2D array with 50 rows and 50 columns","A JButton"], c:1},
+{t:"Choosing Data Structures", q:"Why is an array of 50 elements ideal for storing 50 related student grades?", o:["It allows storing all related values together in an indexed structure","It automatically sorts the grades","It converts grades to letters","It prevents duplicate values"], c:0},
+
+{t:"Summing Array Elements", q:"Summing the elements of the array {5, 10, 15, 20} results in:", o:["40","45","50","55"], c:2},
+{t:"Summing Array Elements", q:"What is the total sum of 5, 10, 15, and 20?", o:["45","50","55","60"], c:1},
+
+{t:"Swing Clickable Button", q:"Which Swing component is primarily used to create a clickable button?", o:["JLabel","JButton","JFrame","JTextField"], c:1},
+{t:"Swing Clickable Button", q:"JButton is best described as:", o:["A container for other components","A Swing component for clickable buttons","A layout manager","A dialog box"], c:1},
+
+{t:"JFrame Purpose", q:"What is the primary purpose of a JFrame?", o:["To display non-editable text","To represent the main window of a Swing application","To handle button clicks","To store array data"], c:1},
+{t:"JFrame Purpose", q:"JFrame represents:", o:["A single button","The main window of a Swing application","A drop-down list","A text input field"], c:1},
+
+{t:"Displaying Text in Swing", q:"Which Swing component is commonly used to display non-editable text?", o:["JTextField","JButton","JLabel","JComboBox"], c:2},
+{t:"Displaying Text in Swing", q:"JLabel is used for:", o:["Accepting single-line text input","Displaying non-editable text or images","Handling click events","Arranging components"], c:1},
+
+{t:"Single-Line Text Input", q:"Which component allows a user to enter a single line of text?", o:["JLabel","JTextField","JButton","JFrame"], c:1},
+{t:"Single-Line Text Input", q:"JTextField allows:", o:["Single-line text input from users","Displaying dialog boxes","Arranging components in a grid","Multi-page navigation"], c:0},
+
+{t:"Drop-Down Selection", q:"Which Swing component is appropriate when the user needs to select one item from a drop-down list?", o:["JButton","JComboBox","JLabel","JPanel"], c:1},
+{t:"Drop-Down Selection", q:"JComboBox is a Swing component used for:", o:["Drop-down selection lists","Displaying static images","Creating the main window","Handling exceptions"], c:0},
+
+{t:"JOptionPane Dialogs", q:"What is the purpose of JOptionPane?", o:["To arrange components in a grid","To display dialog boxes","To store array data","To define classes"], c:1},
+{t:"JOptionPane Dialogs", q:"JOptionPane is used to:", o:["Create the main application window","Display standard dialog boxes","Handle array indexing","Declare static methods"], c:1},
+
+{t:"Button Click Response", q:"To make a button respond to a click, the required feature is:", o:["Inheritance","Event handling","Array traversal","Method overloading"], c:1},
+{t:"Button Click Response", q:"Event handling is the mechanism used to:", o:["Store data in arrays","Make components respond to user actions","Define class attributes","Return values from methods"], c:1},
+
+{t:"Handling Button Clicks", q:"Which listener is commonly used to handle a JButton click?", o:["KeyListener","ActionListener","MouseMotionListener","WindowListener"], c:1},
+{t:"Handling Button Clicks", q:"ActionListener is an interface used to:", o:["Handle button click events","Arrange components in a layout","Declare array size","Return method values"], c:0},
+
+{t:"Action Listener Execution", q:"When the save button with the specified action listener is clicked, what is displayed in the console?", o:["\"Loading...\"","\"Saved!\"","\"Error!\"","Nothing"], c:1},
+{t:"Action Listener Execution", q:"The text \"Saved!\" appearing in the console is the result of:", o:["Compiling the program","Triggering the action listener","Declaring a variable","Creating a new array"], c:1},
+
+{t:"Form Submission Event", q:"When the Save button is clicked on a form, the program should:", o:["Ignore the click","Execute code associated with the button's event","Close the application","Reset all fields automatically"], c:1},
+{t:"Form Submission Event", q:"A Save button click on a form triggers:", o:["The layout manager to reset","Execution of the associated event code","The array to sort","A new class to be defined"], c:1},
+
+{t:"Layout Manager Purpose", q:"What is the main purpose of a layout manager in Java Swing?", o:["To store data permanently","To automatically arrange components inside a container","To handle button click events","To define object attributes"], c:1},
+{t:"Layout Manager Purpose", q:"A layout manager's main job is to:", o:["Automatically arrange components inside a container","Compile the Java program","Sum array elements","Create dialog boxes"], c:0},
+
+{t:"FlowLayout Manager", q:"Which layout manager arranges components from left to right, moving to the next line when necessary?", o:["BorderLayout","FlowLayout","GridLayout","BoxLayout"], c:1},
+{t:"FlowLayout Manager", q:"FlowLayout arranges components:", o:["In a single column only","Left-to-right, wrapping as needed","Into five fixed regions","Along only a vertical axis"], c:1},
+
+{t:"BorderLayout Manager", q:"Which layout manager divides a container into NORTH, SOUTH, EAST, WEST, and CENTER regions?", o:["FlowLayout","GridLayout","BorderLayout","BoxLayout"], c:2},
+{t:"BorderLayout Manager", q:"BorderLayout divides a container into:", o:["Five directional regions","A single row","Equal-sized grid cells","A vertical stack only"], c:0},
+
+{t:"GridLayout Manager", q:"Which layout manager is suitable for creating a calculator-style grid?", o:["FlowLayout","GridLayout","BorderLayout","BoxLayout"], c:1},
+{t:"GridLayout Manager", q:"GridLayout arranges components in:", o:["Five directional regions","Equal-sized rectangular grids","A single flowing line","Nested JPanels only"], c:1},
+
+{t:"BoxLayout Manager", q:"BoxLayout is best described as a layout manager that:", o:["Divides a container into five regions","Arranges components along a horizontal or vertical axis","Creates drop-down menus","Displays dialog boxes"], c:1},
+{t:"BoxLayout Manager", q:"BoxLayout arranges components along:", o:["A single horizontal or vertical axis","A circular path","Five fixed regions","An equal-sized grid only"], c:0},
+
+{t:"Arranging Buttons Horizontally", q:"To make the buttons Save, Update, and Delete appear next to each other, a simple layout choice is:", o:["BorderLayout","FlowLayout","GridLayout","BoxLayout (vertical)"], c:1},
+{t:"Arranging Buttons Horizontally", q:"FlowLayout is a simple choice for:", o:["Placing buttons side-by-side","Dividing a window into five regions","Creating a 2x2 grid only","Displaying dialog boxes"], c:0},
+
+{t:"BorderLayout Main Content", q:"In a JFrame using BorderLayout, the main content area should normally be placed in the:", o:["NORTH region","CENTER region","EAST region","SOUTH region"], c:1},
+{t:"BorderLayout Main Content", q:"The CENTER region in BorderLayout is the standard location for:", o:["Menu bars only","Main content in the application","Footer text only","Nothing; it's unused"], c:1},
+
+{t:"JPanel Utility", q:"Why are JPanels useful when designing Swing interfaces?", o:["They allow developers to group components and use different layouts","They automatically save form data","They replace the need for JFrame","They handle network requests"], c:0},
+{t:"JPanel Utility", q:"A JPanel is best described as:", o:["A container used to group components and apply nested layouts","A single clickable button","A method for summing arrays","A class blueprint"], c:0},
+
+{t:"Complex GUI Design", q:"For a login screen with a title at the top, form in the center, and buttons at the bottom, the most appropriate approach is:", o:["Use one JLabel for everything","Use multiple JPanels with appropriate layout managers","Avoid using any layout manager","Use only GridLayout for the whole frame"], c:1},
+{t:"Complex GUI Design", q:"What is the best practice for structuring complex GUI layouts?", o:["A single layout manager with no panels","Multiple JPanels with appropriate layout managers","Hardcoding pixel positions only","Avoiding JFrame entirely"], c:1},
+
+{t:"Equal Grid Arrangement", q:"To arrange four buttons with equal width and height in a 2x2 grid, the most appropriate layout is:", o:["FlowLayout","BorderLayout","GridLayout","BoxLayout"], c:2},
+{t:"Equal Grid Arrangement", q:"GridLayout is perfect for:", o:["Equal-sized grid arrangements like 2x2","Five directional regions","A single flowing row","Non-uniform component sizes"], c:0},
+
+{t:"Java Class Definition", q:"In Java, a class is defined as:", o:["An instance of an object","A blueprint for creating objects","A method that returns values","A type of array"], c:1},
+{t:"Java Class Definition", q:"A class serves as:", o:["A blueprint or template for creating objects","A single runtime value","A layout manager","A button component"], c:0},
+
+{t:"Java Object Definition", q:"An object is defined as:", o:["A blueprint for a class","An instance of a class","A static method","A return type"], c:1},
+{t:"Java Object Definition", q:"What best describes an object in Java?", o:["An instance of a class","A type of loop","A layout manager","A parameter list"], c:0},
+
+{t:"Object Instantiation", q:"Which statement correctly creates an object from the Student class?", o:["<code>Student = new student1();</code>","<code>Student student1 = new Student();</code>","<code>new Student student1();</code>","<code>student1 Student = new();</code>"], c:1},
+{t:"Object Instantiation", q:"What is the correct syntax to instantiate an object in Java?", o:["<code>ClassName obj = new ClassName();</code>","<code>obj ClassName = new();</code>","<code>new obj = ClassName();</code>","<code>ClassName.new(obj);</code>"], c:0},
+
+{t:"Class Attributes", q:"In the Car class, which of the following is an attribute?", o:["<code>drive()</code>","<code>brand</code>","<code>start()</code>","<code>stop()</code>"], c:1},
+{t:"Class Attributes", q:"An instance variable representing a class attribute is best exemplified by:", o:["A method like <code>drive()</code>","A field like <code>brand</code>","A loop","A return statement"], c:1},
+
+{t:"Class vs. Object", q:"The relationship between a class and an object is best described as:", o:["A class is an instance of an object","A class is a blueprint, while an object is an instance created from that blueprint","They are the same thing","An object defines the class structure"], c:1},
+{t:"Class vs. Object", q:"Which correctly contrasts a class and an object?", o:["Blueprint vs instance","Method vs parameter","Array vs loop","Layout vs component"], c:0},
+
+{t:"Calling Object Methods", q:"Which statement correctly calls the introduce() method for an object named student1?", o:["<code>introduce(student1);</code>","<code>student1.introduce();</code>","<code>student1->introduce();</code>","<code>Student.introduce(student1);</code>"], c:1},
+{t:"Calling Object Methods", q:"Dot notation, as in <code>student1.introduce();</code>, is used to:", o:["Declare a new class","Invoke an object's method","Create a new array","Import a package"], c:1},
+
+{t:"Object Instance Values", q:"When two objects are created from the same Student class, they:", o:["Must always share identical values","Can contain different values for their instance attributes","Cannot be created independently","Automatically merge into one object"], c:1},
+{t:"Object Instance Values", q:"What does it mean that multiple objects of the same class maintain independent attributes?", o:["Each object can hold its own separate state","All objects share one static value","Objects cannot have attributes","Only one object can exist per class"], c:0},
+
+{t:"Modeling with Classes", q:"To model a vehicle in a rental application, the design that best demonstrates the use of a class is:", o:["A single global variable for all vehicles","A Vehicle class containing attributes like brand, model, and plateNumber, along with related methods","An array of Strings only","A JButton for each vehicle"], c:1},
+{t:"Modeling with Classes", q:"A Vehicle class is best described as encapsulating:", o:["Vehicle attributes and behaviors","Only static methods","Only layout managers","Only return types"], c:0},
+
+{t:"Using Class Methods", q:"Which code correctly uses the Calculator class to calculate 10 + 20?", o:["<code>Calculator.add(10, 20);</code>","<code>Calculator c = new Calculator(); c.add(10, 20);</code>","<code>add(Calculator, 10, 20);</code>","<code>int c = Calculator(10, 20);</code>"], c:1},
+{t:"Using Class Methods", q:"What does <code>Calculator c = new Calculator(); c.add(10, 20);</code> demonstrate?", o:["Instantiating a calculator and calling its add method","Declaring an array of calculators","Overloading the Calculator class","Creating a layout manager"], c:0},
+
+{t:"Applying OOP Concepts", q:"When designing a clinic appointment GUI, the approach that best applies classes and objects is to:", o:["Use only static methods with no classes","Create one class named Appointment, then create separate objects for each appointment","Store all appointments as Strings in an array","Avoid using classes entirely"], c:1},
+{t:"Applying OOP Concepts", q:"An Appointment class serves as:", o:["A blueprint for individual appointment objects","A single method for input","A layout manager","A static variable"], c:0}
+];
+
+let order = [];
+let current = 0;
+let score = 0;
+let answered = false;
+let userAnswers = [];
+
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i = a.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function startQuiz(){
+  order = shuffle(QUESTIONS.map((_, i) => i));
+  current = 0;
+  score = 0;
+  userAnswers = [];
+  document.getElementById('intro').style.display = 'none';
+  document.getElementById('resultScreen').style.display = 'none';
+  document.getElementById('quizScreen').style.display = 'block';
+  renderQuestion();
+}
+
+function renderQuestion(){
+  answered = false;
+  const idx = order[current];
+  const item = QUESTIONS[idx];
+
+  document.getElementById('qCounter').textContent = `Question ${current + 1} / ${QUESTIONS.length}`;
+  document.getElementById('qScoreLive').textContent = `Score: ${score}`;
+  document.getElementById('progressFill').style.width = `${(current / QUESTIONS.length) * 100}%`;
+  document.getElementById('qTopic').textContent = item.t;
+  document.getElementById('qText').innerHTML = item.q;
+  document.getElementById('feedback').textContent = '';
+  document.getElementById('feedback').className = 'feedback';
+  document.getElementById('nextBtn').disabled = true;
+  document.getElementById('nextBtn').textContent = (current === QUESTIONS.length - 1) ? 'See results' : 'Next question';
+
+  const box = document.getElementById('optionsBox');
+  box.innerHTML = '';
+  const letters = ['A', 'B', 'C', 'D'];
+
+  item.o.forEach((optText, i) => {
+    const el = document.createElement('div');
+    el.className = 'opt';
+    el.innerHTML = `<span class="letter">${letters[i]}</span><span>${optText}</span>`;
+    el.onclick = () => selectAnswer(i, idx, el);
+    box.appendChild(el);
+  });
+}
+
+function selectAnswer(i, idx, el){
+  if(answered) return;
+  answered = true;
+  const item = QUESTIONS[idx];
+  const correct = i === item.c;
+  if(correct) score++;
+
+  userAnswers.push({ idx, correct });
+
+  const opts = document.querySelectorAll('#optionsBox .opt');
+  opts.forEach((o, oi) => {
+    o.classList.add('locked');
+    if(oi === item.c) o.classList.add('correct');
+    else if(oi === i) o.classList.add('wrong');
+  });
+
+  const fb = document.getElementById('feedback');
+  fb.textContent = correct ? 'Correct.' : `Incorrect — correct answer is "${item.o[item.c].replace(/<[^>]+>/g, '')}".`;
+  fb.className = 'feedback ' + (correct ? 'correct' : 'wrong');
+
+  document.getElementById('qScoreLive').textContent = `Score: ${score}`;
+  document.getElementById('nextBtn').disabled = false;
+}
+
+function nextQuestion(){
+  if(!answered) return;
+  current++;
+  if(current >= QUESTIONS.length){
+    showResults();
+  } else {
+    renderQuestion();
+  }
+}
+
+function showResults(){
+  document.getElementById('quizScreen').style.display = 'none';
+  document.getElementById('resultScreen').style.display = 'block';
+
+  const pct = Math.round((score / QUESTIONS.length) * 100);
+  document.getElementById('scoreBig').textContent = `${pct}%`;
+  document.getElementById('scoreSub').textContent = `${score} / ${QUESTIONS.length} correct`;
+
+  let verdict;
+  if(pct >= 90) verdict = "Excellent — you know these notes cold.";
+  else if(pct >= 75) verdict = "Solid grasp. Review the missed topics below.";
+  else if(pct >= 50) verdict = "Getting there — go over the misses before the exam.";
+  else verdict = "Time for another pass through the notes.";
+  document.getElementById('verdict').textContent = verdict;
+
+  const missed = userAnswers.filter(a => !a.correct);
+  const breakdown = document.getElementById('breakdown');
+  if(missed.length === 0){
+    breakdown.innerHTML = '<div class="breakdown-row hit"><span class="r-topic">No misses — perfect run.</span><span class="r-mark">✓</span></div>';
+  } else {
+    const seen = new Set();
+    let rows = '';
+    missed.forEach(m => {
+      const t = QUESTIONS[m.idx].t;
+      if(seen.has(t)) return;
+      seen.add(t);
+      rows += `<div class="breakdown-row miss"><span class="r-topic">${t}</span><span class="r-mark">missed</span></div>`;
+    });
+    breakdown.innerHTML = rows;
+  }
+}
+
+function restartQuiz(){
+  document.getElementById('resultScreen').style.display = 'none';
+  document.getElementById('intro').style.display = 'block';
+}
+</script>
+</body>
+</html>
