@@ -289,9 +289,9 @@
   <div class="card">
 
     <div id="intro">
-      <p>100 questions covering methods, arrays, Swing components, layout managers, and OOP fundamentals — pulled straight from your midterm notes.</p>
+      <p>50 questions covering methods, arrays, Swing components, layout managers, and OOP fundamentals — pulled straight from your midterm notes.</p>
       <div class="stats">
-        <div class="stat"><b>100</b>questions</div>
+        <div class="stat"><b>50</b>questions</div>
         <div class="stat"><b>4</b>choices each</div>
         <div class="stat"><b>∞</b>retries</div>
       </div>
@@ -300,7 +300,7 @@
 
     <div id="quizScreen">
       <div class="progress-row">
-        <span id="qCounter">Question 1 / 100</span>
+        <span id="qCounter">Question 1 / 50</span>
         <span id="qScoreLive">Score: 0</span>
       </div>
       <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
@@ -318,7 +318,7 @@
     <div id="resultScreen">
       <div class="qtopic" style="text-align:left">RESULT</div>
       <div class="score-big" id="scoreBig">0%</div>
-      <div class="score-sub" id="scoreSub">0 / 100 correct</div>
+      <div class="score-sub" id="scoreSub">0 / 50 correct</div>
       <div class="verdict" id="verdict"></div>
       <div class="breakdown" id="breakdown"></div>
       <div class="result-actions">
@@ -332,154 +332,104 @@
 <script>
 const QUESTIONS = [
 {t:"Purpose of a Method", q:"What is the primary purpose of a method in Java?", o:["To perform a specific task or operation","To declare variables only","To import packages","To create a compiler"], c:0},
-{t:"Purpose of a Method", q:"Which best describes why methods exist in Java programs?", o:["They store data permanently","They perform specific tasks or operations that can be invoked","They replace classes entirely","They define the main memory layout"], c:1},
 
 {t:"Method Return Type", q:"What does the return type in a method declaration specify?", o:["The method's name","The type of value returned by the method","The number of parameters","The access modifier"], c:1},
-{t:"Method Return Type", q:"In <code>public int calculate()</code>, what does <code>int</code> represent?", o:["The method's parameter","The return type of the method","The class name","A loop variable"], c:1},
 
 {t:"Returning Sum of Integers", q:"Which method correctly returns the sum of two integers?", o:["<code>void add(int a, int b) { a + b; }</code>","<code>int add(int a, int b) { return a + b; }</code>","<code>int add() { return a + b; }</code>","<code>String add(int a, int b) { a + b; }</code>"], c:1},
-{t:"Returning Sum of Integers", q:"Given <code>int add(int a, int b) { return a + b; }</code>, calling <code>add(3, 4)</code> returns:", o:["34","7","\"3 4\"","An error"], c:1},
 
 {t:"Method Parameters", q:"What is the purpose of a parameter in a method?", o:["To store the return value","To receive data that can be used by the method","To define the class name","To end the program"], c:1},
-{t:"Method Parameters", q:"In <code>void display(String name)</code>, what role does <code>name</code> play?", o:["It's the return type","It's a parameter that receives data passed to the method","It's a static variable","It's an object"], c:1},
 
 {t:"Calling a Static Method", q:"How is a static method named <code>greet()</code> called?", o:["<code>greet;</code>","<code>call greet();</code>","<code>greet();</code>","<code>new greet();</code>"], c:2},
-{t:"Calling a Static Method", q:"What is the standard syntax to call a static method with no parameters?", o:["<code>methodName();</code>","<code>methodName[];</code>","<code>methodName{};</code>","<code>new methodName();</code>"], c:0},
 
 {t:"Void Return Type", q:"What does a method with a void return type do?", o:["Returns an integer","Returns a string","Does not return a value","Always returns null"], c:2},
-{t:"Void Return Type", q:"Which return type indicates a method does not return any value?", o:["int","void","String","boolean"], c:1},
 
 {t:"Method Execution Output", q:"Passing 4 to a method that returns the square of its input displays:", o:["4","8","16","12"], c:2},
-{t:"Method Execution Output", q:"If <code>square(4)</code> evaluates to 16, what does <code>square(5)</code> evaluate to?", o:["10","20","25","15"], c:2},
 
 {t:"Displaying Parameters", q:"Which method declaration accepts a student's name and displays it?", o:["<code>int display(name)</code>","<code>void display(String name) { System.out.println(name); }</code>","<code>void display() { System.out.println(name); }</code>","<code>String display(name) { print(name); }</code>"], c:1},
-{t:"Displaying Parameters", q:"In <code>void display(String name) { System.out.println(name); }</code>, what does the parameter allow?", o:["The method to accept a String value and print it","The method to return a value","The method to create a new class","The method to loop indefinitely"], c:0},
 
 {t:"Code Reusability", q:"To reuse the same calculation in several parts of a program, the best approach is to:", o:["Copy and paste the code everywhere","Create a method containing the calculation","Write it as a comment","Use a static variable only"], c:1},
-{t:"Code Reusability", q:"What is the best practice for achieving code reuse in Java?", o:["Duplicating code blocks","Creating a reusable method","Removing all functions","Hardcoding values"], c:1},
 
 {t:"Method Overloading", q:"Method overloading is defined as:", o:["Defining methods with the same name but different parameter lists","Defining methods with different names","Overwriting a method in a subclass","Deleting unused methods"], c:0},
-{t:"Method Overloading", q:"Which of the following is an example of method overloading?", o:["Two methods with identical names and identical parameters","Two methods with the same name but different parameter lists","One method calling another","A method inside a loop"], c:1},
 
 {t:"Array Declaration", q:"Which declaration creates an array capable of storing five integers?", o:["<code>int numbers = new int[5];</code>","<code>int[] numbers = new int[5];</code>","<code>int[5] numbers = new int;</code>","<code>array numbers = int[5];</code>"], c:1},
-{t:"Array Declaration", q:"What does <code>new int[5]</code> allocate?", o:["A single integer variable","An array with space for 5 integers","A string of length 5","A 5x5 2D array"], c:1},
 
 {t:"Array Indexing", q:"What is the index of the first element in a Java array?", o:["1","-1","0","It depends on the array"], c:2},
-{t:"Array Indexing", q:"In Java, array indexing always starts at:", o:["0","1","The array's length","A random number"], c:0},
 
 {t:"Accessing Array Elements", q:"Given <code>scores = {80, 85, 90, 95}</code>, which expression accesses the value 90?", o:["<code>scores[3]</code>","<code>scores[1]</code>","<code>scores[2]</code>","<code>scores[90]</code>"], c:2},
-{t:"Accessing Array Elements", q:"In the array <code>scores = {80, 85, 90, 95}</code>, what does <code>scores[0]</code> return?", o:["95","90","85","80"], c:3},
 
 {t:"Array Length Property", q:"What does the length property of an array provide?", o:["The sum of all elements","The number of elements in the array","The last element's value","The data type of the array"], c:1},
-{t:"Array Length Property", q:"If an array has 10 elements, what value does <code>array.length</code> return?", o:["9","10","0","11"], c:1},
 
 {t:"Array Index Out of Bounds", q:"Accessing index 3 of a three-element array causes:", o:["A compile error","An ArrayIndexOutOfBoundsException","The value 0 to be returned","Nothing, it's valid"], c:1},
-{t:"Array Index Out of Bounds", q:"What exception is thrown when accessing an invalid array index in Java?", o:["NullPointerException","ArrayIndexOutOfBoundsException","ClassCastException","NumberFormatException"], c:1},
 
 {t:"Array Traversal", q:"Which loop is commonly used to process every element of an array?", o:["if statement","for loop","switch statement","try-catch block"], c:1},
-{t:"Array Traversal", q:"What is the standard loop structure for iterating through arrays?", o:["do-while only","for loop","if-else chain","synchronized block"], c:1},
 
 {t:"Array Output", q:"Printing each element of the array {2, 4, 6, 8} sequentially displays:", o:["8 6 4 2","2 4 6 8","\"2, 4, 6, 8\" as one string only","An error"], c:1},
-{t:"Array Output", q:"What is the output of printing the elements of {2, 4, 6, 8} in order?", o:["2 4 6 8","4 2 8 6","8 4 6 2","6 8 2 4"], c:0},
 
 {t:"2D Array Declaration", q:"Which declaration creates a two-dimensional integer array with 3 rows and 4 columns?", o:["<code>int[] data = new int[3,4];</code>","<code>int[][] data = new int[3][4];</code>","<code>int[][] data = new int[4][3];</code>","<code>int data[3][4];</code>"], c:1},
-{t:"2D Array Declaration", q:"In <code>int[][] data = new int[3][4];</code>, how many total elements can the array hold?", o:["7","12","3","4"], c:1},
 
 {t:"Choosing Data Structures", q:"To store the grades of 50 students in one subject, the most appropriate structure is:", o:["A single integer variable","An integer array with 50 elements","A 2D array with 50 rows and 50 columns","A JButton"], c:1},
-{t:"Choosing Data Structures", q:"Why is an array of 50 elements ideal for storing 50 related student grades?", o:["It allows storing all related values together in an indexed structure","It automatically sorts the grades","It converts grades to letters","It prevents duplicate values"], c:0},
 
 {t:"Summing Array Elements", q:"Summing the elements of the array {5, 10, 15, 20} results in:", o:["40","45","50","55"], c:2},
-{t:"Summing Array Elements", q:"What is the total sum of 5, 10, 15, and 20?", o:["45","50","55","60"], c:1},
 
 {t:"Swing Clickable Button", q:"Which Swing component is primarily used to create a clickable button?", o:["JLabel","JButton","JFrame","JTextField"], c:1},
-{t:"Swing Clickable Button", q:"JButton is best described as:", o:["A container for other components","A Swing component for clickable buttons","A layout manager","A dialog box"], c:1},
 
 {t:"JFrame Purpose", q:"What is the primary purpose of a JFrame?", o:["To display non-editable text","To represent the main window of a Swing application","To handle button clicks","To store array data"], c:1},
-{t:"JFrame Purpose", q:"JFrame represents:", o:["A single button","The main window of a Swing application","A drop-down list","A text input field"], c:1},
 
 {t:"Displaying Text in Swing", q:"Which Swing component is commonly used to display non-editable text?", o:["JTextField","JButton","JLabel","JComboBox"], c:2},
-{t:"Displaying Text in Swing", q:"JLabel is used for:", o:["Accepting single-line text input","Displaying non-editable text or images","Handling click events","Arranging components"], c:1},
 
 {t:"Single-Line Text Input", q:"Which component allows a user to enter a single line of text?", o:["JLabel","JTextField","JButton","JFrame"], c:1},
-{t:"Single-Line Text Input", q:"JTextField allows:", o:["Single-line text input from users","Displaying dialog boxes","Arranging components in a grid","Multi-page navigation"], c:0},
 
 {t:"Drop-Down Selection", q:"Which Swing component is appropriate when the user needs to select one item from a drop-down list?", o:["JButton","JComboBox","JLabel","JPanel"], c:1},
-{t:"Drop-Down Selection", q:"JComboBox is a Swing component used for:", o:["Drop-down selection lists","Displaying static images","Creating the main window","Handling exceptions"], c:0},
 
 {t:"JOptionPane Dialogs", q:"What is the purpose of JOptionPane?", o:["To arrange components in a grid","To display dialog boxes","To store array data","To define classes"], c:1},
-{t:"JOptionPane Dialogs", q:"JOptionPane is used to:", o:["Create the main application window","Display standard dialog boxes","Handle array indexing","Declare static methods"], c:1},
 
 {t:"Button Click Response", q:"To make a button respond to a click, the required feature is:", o:["Inheritance","Event handling","Array traversal","Method overloading"], c:1},
-{t:"Button Click Response", q:"Event handling is the mechanism used to:", o:["Store data in arrays","Make components respond to user actions","Define class attributes","Return values from methods"], c:1},
 
 {t:"Handling Button Clicks", q:"Which listener is commonly used to handle a JButton click?", o:["KeyListener","ActionListener","MouseMotionListener","WindowListener"], c:1},
-{t:"Handling Button Clicks", q:"ActionListener is an interface used to:", o:["Handle button click events","Arrange components in a layout","Declare array size","Return method values"], c:0},
 
 {t:"Action Listener Execution", q:"When the save button with the specified action listener is clicked, what is displayed in the console?", o:["\"Loading...\"","\"Saved!\"","\"Error!\"","Nothing"], c:1},
-{t:"Action Listener Execution", q:"The text \"Saved!\" appearing in the console is the result of:", o:["Compiling the program","Triggering the action listener","Declaring a variable","Creating a new array"], c:1},
 
 {t:"Form Submission Event", q:"When the Save button is clicked on a form, the program should:", o:["Ignore the click","Execute code associated with the button's event","Close the application","Reset all fields automatically"], c:1},
-{t:"Form Submission Event", q:"A Save button click on a form triggers:", o:["The layout manager to reset","Execution of the associated event code","The array to sort","A new class to be defined"], c:1},
 
 {t:"Layout Manager Purpose", q:"What is the main purpose of a layout manager in Java Swing?", o:["To store data permanently","To automatically arrange components inside a container","To handle button click events","To define object attributes"], c:1},
-{t:"Layout Manager Purpose", q:"A layout manager's main job is to:", o:["Automatically arrange components inside a container","Compile the Java program","Sum array elements","Create dialog boxes"], c:0},
 
 {t:"FlowLayout Manager", q:"Which layout manager arranges components from left to right, moving to the next line when necessary?", o:["BorderLayout","FlowLayout","GridLayout","BoxLayout"], c:1},
-{t:"FlowLayout Manager", q:"FlowLayout arranges components:", o:["In a single column only","Left-to-right, wrapping as needed","Into five fixed regions","Along only a vertical axis"], c:1},
 
 {t:"BorderLayout Manager", q:"Which layout manager divides a container into NORTH, SOUTH, EAST, WEST, and CENTER regions?", o:["FlowLayout","GridLayout","BorderLayout","BoxLayout"], c:2},
-{t:"BorderLayout Manager", q:"BorderLayout divides a container into:", o:["Five directional regions","A single row","Equal-sized grid cells","A vertical stack only"], c:0},
 
 {t:"GridLayout Manager", q:"Which layout manager is suitable for creating a calculator-style grid?", o:["FlowLayout","GridLayout","BorderLayout","BoxLayout"], c:1},
-{t:"GridLayout Manager", q:"GridLayout arranges components in:", o:["Five directional regions","Equal-sized rectangular grids","A single flowing line","Nested JPanels only"], c:1},
 
 {t:"BoxLayout Manager", q:"BoxLayout is best described as a layout manager that:", o:["Divides a container into five regions","Arranges components along a horizontal or vertical axis","Creates drop-down menus","Displays dialog boxes"], c:1},
-{t:"BoxLayout Manager", q:"BoxLayout arranges components along:", o:["A single horizontal or vertical axis","A circular path","Five fixed regions","An equal-sized grid only"], c:0},
 
 {t:"Arranging Buttons Horizontally", q:"To make the buttons Save, Update, and Delete appear next to each other, a simple layout choice is:", o:["BorderLayout","FlowLayout","GridLayout","BoxLayout (vertical)"], c:1},
-{t:"Arranging Buttons Horizontally", q:"FlowLayout is a simple choice for:", o:["Placing buttons side-by-side","Dividing a window into five regions","Creating a 2x2 grid only","Displaying dialog boxes"], c:0},
 
 {t:"BorderLayout Main Content", q:"In a JFrame using BorderLayout, the main content area should normally be placed in the:", o:["NORTH region","CENTER region","EAST region","SOUTH region"], c:1},
-{t:"BorderLayout Main Content", q:"The CENTER region in BorderLayout is the standard location for:", o:["Menu bars only","Main content in the application","Footer text only","Nothing; it's unused"], c:1},
 
 {t:"JPanel Utility", q:"Why are JPanels useful when designing Swing interfaces?", o:["They allow developers to group components and use different layouts","They automatically save form data","They replace the need for JFrame","They handle network requests"], c:0},
-{t:"JPanel Utility", q:"A JPanel is best described as:", o:["A container used to group components and apply nested layouts","A single clickable button","A method for summing arrays","A class blueprint"], c:0},
 
 {t:"Complex GUI Design", q:"For a login screen with a title at the top, form in the center, and buttons at the bottom, the most appropriate approach is:", o:["Use one JLabel for everything","Use multiple JPanels with appropriate layout managers","Avoid using any layout manager","Use only GridLayout for the whole frame"], c:1},
-{t:"Complex GUI Design", q:"What is the best practice for structuring complex GUI layouts?", o:["A single layout manager with no panels","Multiple JPanels with appropriate layout managers","Hardcoding pixel positions only","Avoiding JFrame entirely"], c:1},
 
 {t:"Equal Grid Arrangement", q:"To arrange four buttons with equal width and height in a 2x2 grid, the most appropriate layout is:", o:["FlowLayout","BorderLayout","GridLayout","BoxLayout"], c:2},
-{t:"Equal Grid Arrangement", q:"GridLayout is perfect for:", o:["Equal-sized grid arrangements like 2x2","Five directional regions","A single flowing row","Non-uniform component sizes"], c:0},
 
 {t:"Java Class Definition", q:"In Java, a class is defined as:", o:["An instance of an object","A blueprint for creating objects","A method that returns values","A type of array"], c:1},
-{t:"Java Class Definition", q:"A class serves as:", o:["A blueprint or template for creating objects","A single runtime value","A layout manager","A button component"], c:0},
 
 {t:"Java Object Definition", q:"An object is defined as:", o:["A blueprint for a class","An instance of a class","A static method","A return type"], c:1},
-{t:"Java Object Definition", q:"What best describes an object in Java?", o:["An instance of a class","A type of loop","A layout manager","A parameter list"], c:0},
 
 {t:"Object Instantiation", q:"Which statement correctly creates an object from the Student class?", o:["<code>Student = new student1();</code>","<code>Student student1 = new Student();</code>","<code>new Student student1();</code>","<code>student1 Student = new();</code>"], c:1},
-{t:"Object Instantiation", q:"What is the correct syntax to instantiate an object in Java?", o:["<code>ClassName obj = new ClassName();</code>","<code>obj ClassName = new();</code>","<code>new obj = ClassName();</code>","<code>ClassName.new(obj);</code>"], c:0},
 
 {t:"Class Attributes", q:"In the Car class, which of the following is an attribute?", o:["<code>drive()</code>","<code>brand</code>","<code>start()</code>","<code>stop()</code>"], c:1},
-{t:"Class Attributes", q:"An instance variable representing a class attribute is best exemplified by:", o:["A method like <code>drive()</code>","A field like <code>brand</code>","A loop","A return statement"], c:1},
 
 {t:"Class vs. Object", q:"The relationship between a class and an object is best described as:", o:["A class is an instance of an object","A class is a blueprint, while an object is an instance created from that blueprint","They are the same thing","An object defines the class structure"], c:1},
-{t:"Class vs. Object", q:"Which correctly contrasts a class and an object?", o:["Blueprint vs instance","Method vs parameter","Array vs loop","Layout vs component"], c:0},
 
 {t:"Calling Object Methods", q:"Which statement correctly calls the introduce() method for an object named student1?", o:["<code>introduce(student1);</code>","<code>student1.introduce();</code>","<code>student1->introduce();</code>","<code>Student.introduce(student1);</code>"], c:1},
-{t:"Calling Object Methods", q:"Dot notation, as in <code>student1.introduce();</code>, is used to:", o:["Declare a new class","Invoke an object's method","Create a new array","Import a package"], c:1},
 
 {t:"Object Instance Values", q:"When two objects are created from the same Student class, they:", o:["Must always share identical values","Can contain different values for their instance attributes","Cannot be created independently","Automatically merge into one object"], c:1},
-{t:"Object Instance Values", q:"What does it mean that multiple objects of the same class maintain independent attributes?", o:["Each object can hold its own separate state","All objects share one static value","Objects cannot have attributes","Only one object can exist per class"], c:0},
 
 {t:"Modeling with Classes", q:"To model a vehicle in a rental application, the design that best demonstrates the use of a class is:", o:["A single global variable for all vehicles","A Vehicle class containing attributes like brand, model, and plateNumber, along with related methods","An array of Strings only","A JButton for each vehicle"], c:1},
-{t:"Modeling with Classes", q:"A Vehicle class is best described as encapsulating:", o:["Vehicle attributes and behaviors","Only static methods","Only layout managers","Only return types"], c:0},
 
 {t:"Using Class Methods", q:"Which code correctly uses the Calculator class to calculate 10 + 20?", o:["<code>Calculator.add(10, 20);</code>","<code>Calculator c = new Calculator(); c.add(10, 20);</code>","<code>add(Calculator, 10, 20);</code>","<code>int c = Calculator(10, 20);</code>"], c:1},
-{t:"Using Class Methods", q:"What does <code>Calculator c = new Calculator(); c.add(10, 20);</code> demonstrate?", o:["Instantiating a calculator and calling its add method","Declaring an array of calculators","Overloading the Calculator class","Creating a layout manager"], c:0},
 
-{t:"Applying OOP Concepts", q:"When designing a clinic appointment GUI, the approach that best applies classes and objects is to:", o:["Use only static methods with no classes","Create one class named Appointment, then create separate objects for each appointment","Store all appointments as Strings in an array","Avoid using classes entirely"], c:1},
-{t:"Applying OOP Concepts", q:"An Appointment class serves as:", o:["A blueprint for individual appointment objects","A single method for input","A layout manager","A static variable"], c:0}
+{t:"Applying OOP Concepts", q:"When designing a clinic appointment GUI, the approach that best applies classes and objects is to:", o:["Use only static methods with no classes","Create one class named Appointment, then create separate objects for each appointment","Store all appointments as Strings in an array","Avoid using classes entirely"], c:1}
 ];
 
 let order = [];
@@ -523,24 +473,28 @@ function renderQuestion(){
   document.getElementById('nextBtn').disabled = true;
   document.getElementById('nextBtn').textContent = (current === QUESTIONS.length - 1) ? 'See results' : 'Next question';
 
+  // Shuffle option order each time this question is shown, tracking the new correct index.
+  const optionOrder = shuffle(item.o.map((_, i) => i));
+  const shuffledCorrectIndex = optionOrder.indexOf(item.c);
+
   const box = document.getElementById('optionsBox');
   box.innerHTML = '';
   const letters = ['A', 'B', 'C', 'D'];
 
-  item.o.forEach((optText, i) => {
+  optionOrder.forEach((origIndex, displayIndex) => {
     const el = document.createElement('div');
     el.className = 'opt';
-    el.innerHTML = `<span class="letter">${letters[i]}</span><span>${optText}</span>`;
-    el.onclick = () => selectAnswer(i, idx, el);
+    el.innerHTML = `<span class="letter">${letters[displayIndex]}</span><span>${item.o[origIndex]}</span>`;
+    el.onclick = () => selectAnswer(displayIndex, idx, el, shuffledCorrectIndex);
     box.appendChild(el);
   });
 }
 
-function selectAnswer(i, idx, el){
+function selectAnswer(i, idx, el, correctDisplayIndex){
   if(answered) return;
   answered = true;
   const item = QUESTIONS[idx];
-  const correct = i === item.c;
+  const correct = i === correctDisplayIndex;
   if(correct) score++;
 
   userAnswers.push({ idx, correct });
@@ -548,12 +502,13 @@ function selectAnswer(i, idx, el){
   const opts = document.querySelectorAll('#optionsBox .opt');
   opts.forEach((o, oi) => {
     o.classList.add('locked');
-    if(oi === item.c) o.classList.add('correct');
+    if(oi === correctDisplayIndex) o.classList.add('correct');
     else if(oi === i) o.classList.add('wrong');
   });
 
   const fb = document.getElementById('feedback');
-  fb.textContent = correct ? 'Correct.' : `Incorrect — correct answer is "${item.o[item.c].replace(/<[^>]+>/g, '')}".`;
+  const correctText = opts[correctDisplayIndex].querySelector('span:last-child').textContent;
+  fb.textContent = correct ? 'Correct.' : `Incorrect — correct answer is "${correctText}".`;
   fb.className = 'feedback ' + (correct ? 'correct' : 'wrong');
 
   document.getElementById('qScoreLive').textContent = `Score: ${score}`;
